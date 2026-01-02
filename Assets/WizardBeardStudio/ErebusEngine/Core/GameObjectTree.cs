@@ -57,6 +57,13 @@ namespace WizardBeardStudio.ErebusEngine.Core
             }
         }
 
+        public void AddSibling(GameObjectTree<T> sibling)
+        {
+            if (sibling?.Parent == null) return;
+            if (sibling.Parent != Parent) return;
+            Parent._children.Add(sibling);
+        }
+
         public GameObjectTree<T> GetChild(int index)
         {
             return (index >= 0 && index < _children.Count)

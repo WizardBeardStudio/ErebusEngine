@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using WizardBeardStudio.ErebusEngine.Core;
 
 namespace WizardBeardStudio.ErebusEngine.Dialog
@@ -12,18 +9,8 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
         [Header("Hierarchy")]
         [Tooltip("Root Transform containing all DialogPage GameObjects. Typically a GameObject named 'Pages'.")]
         [SerializeField] private Transform pagesRoot;
+        [SerializeField] private DialogPage syntheticRootPage;
 
-        [Header("UI")] 
-        // [field: SerializeField] public TMP_Text TitleText { get; private set; }
-        // [field: SerializeField] public TMP_Text DialogText { get; private set; }
-        // [field: SerializeField] public Sprite Portrait { get; private set; }
-        [field: SerializeField] public ScrollRect ScrollableRect { get; private set; }
-        
-        [Tooltip("Parent Transform to hold dynamically created navigation buttons.")]
-        [field: SerializeField] public Transform NavButtonContainer { get; private set; }
-        
-        [Tooltip("Prefab of navigation button of type DialogNavButton.")]
-        [field: SerializeField] public DialogNavButton NavButtonPrefab { get; private set; }
         
         /// <summary>
         /// Roots of the dialog trees (one per top-level DialogPage under pagesRoot).
@@ -52,9 +39,26 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
 
             BuildForestFromHierarchy();
             ChooseEntryNode();
+            BuildRootSiblings();
             StartDialog();
         }
 
+        private void BuildRootSiblings()
+        {
+            if (EntryNode == null && syntheticRootPage == null) return;
+
+            foreach (var node in _roots)
+            {
+                // node.SetParent(EntryNode);
+
+                foreach (var sibling in _roots)
+                {
+                    if (node == sibling) break;
+                    node.AddSibling(sibling);
+                }
+            }
+        }
+        
         private void EnsurePagesRoot()
         {
             if (pagesRoot != null) return;
@@ -112,7 +116,10 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
                 else
                 {
                     // No DialogPage ancestor under pagesRoot, so this is a root
-                    _roots.Add(node);
+                    if (node.Value.IsStartPage != true)
+                    {
+                        _roots.Add(node);
+                    }
                 }
             }
 
@@ -134,7 +141,8 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             // Fallback: first root
             if (EntryNode == null && _roots.Count > 0)
             {
-                EntryNode = _roots[0];
+                // EntryNode = _roots[0];
+                EntryNode = new GameObjectTree<DialogPage>(syntheticRootPage);
             }
 
             if (EntryNode != null)
@@ -211,23 +219,23 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
 
         private void RebuildNavButtons()
         {
-            if (NavButtonContainer == null || NavButtonPrefab == null)
-            {
-                Debug.LogWarning($"[Dialog Manager] NavButton || NavButtonPrefab == null.");
-                return;
-            }
+            // if (NavButtonContainer == null || NavButtonPrefab == null)
+            // {
+            //     Debug.LogWarning($"[Dialog Manager] NavButton || NavButtonPrefab == null.");
+            //     return;
+            // }
 
-            for (int i = NavButtonContainer.childCount - 1; i >= 0; i--)
-            {
-                var child = NavButtonContainer.GetChild(i);
-                Destroy(child.gameObject);
-            }
+            // for (int i = NavButtonContainer.childCount - 1; i >= 0; i--)
+            // {
+            //     var child = NavButtonContainer.GetChild(i);
+            //     Destroy(child.gameObject);
+            // }
 
             if (_history.Count > 0)
             {
                 var previousNode = _history.Peek();
-
-                var backButton = Instantiate(NavButtonPrefab, NavButtonContainer);
+                var componentBinder = previousNode.Value.GetComponentInChildren<DialogPageComponentBinder>();
+                var backButton = Instantiate(componentBinder.NavButtonPrefab, componentBinder.NavButtonContainer);
                 backButton.Initialize("Previous", this, previousNode, isBack: true);
             }
 
@@ -236,8 +244,9 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
                 foreach (var sibling in _currentNode.Siblings())
                 {
                     if (sibling == null || sibling.Value == null) continue;
-
-                    var button = Instantiate(NavButtonPrefab, NavButtonContainer);
+                    
+                    var componentBinder = sibling.Value.GetComponentInChildren<DialogPageComponentBinder>();
+                    var button = Instantiate(componentBinder.NavButtonPrefab, componentBinder.NavButtonContainer);
                     var label = string.IsNullOrEmpty(sibling.Value.Title)
                         ? sibling.Value.name
                         : sibling.Value.Title;
@@ -249,8 +258,9 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             foreach (var child in _currentNode.Children)
             {
                 if (child == null) continue;
-
-                var button = Instantiate(NavButtonPrefab, NavButtonContainer);
+                
+                var componentBinder = child.Value.GetComponentInChildren<DialogPageComponentBinder>();
+                var button = Instantiate(componentBinder.NavButtonPrefab, componentBinder.NavButtonContainer);
                 var label = string.IsNullOrEmpty(child.Value.Title)
                     ? child.Value.name
                     : child.Value.Title;

@@ -12,8 +12,8 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
         [field: SerializeField] public Image HeaderBg { get; private set; }
         [field: SerializeField] public TMP_Text TitleText { get; private set; }
         [field: SerializeField] public TMP_Text DialogText { get; private set; }
-        [field: SerializeField] public GameObject NavButtonPrefab { get; private set; }
-        [field: SerializeField] public GameObject NavButtonContainer { get; private set; }
+        [field: SerializeField] public DialogNavButton NavButtonPrefab { get; private set; }
+        [field: SerializeField] public Transform NavButtonContainer { get; private set; }
 
         private bool _hasPage;
         
@@ -42,15 +42,15 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
 
         private void OnEnable()
         {
-            EnablePortrait();
-            EnableHeaderBg();
-            EnableTitleText();
-            EnableDialogText();
-            EnableNavButtonPrefab();
-            EnableNavButtonContainer();
+            OnEnablePortrait();
+            OnEnableHeaderBg();
+            OnEnableTitleText();
+            OnEnableDialogText();
+            // OnEnableNavButtonPrefab();
+            // OnEnableNavButtonContainer();
         }
 
-        private void EnablePortrait()
+        private void OnEnablePortrait()
         {
             if (Portrait != null && _hasPage)
             {
@@ -58,15 +58,15 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             }
         }
 
-        private void EnableHeaderBg()
+        private void OnEnableHeaderBg()
         {
             if (HeaderBg != null && _hasPage)
             {
-                HeaderBg.sprite = Page.HeaderBG;
+                HeaderBg.sprite = Page.HeaderBg;
             }
         }
 
-        private void EnableTitleText()
+        private void OnEnableTitleText()
         {
             if (TitleText != null && _hasPage)
             {
@@ -74,7 +74,7 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             }
         }
 
-        private void EnableDialogText()
+        private void OnEnableDialogText()
         {
             if (DialogText != null && _hasPage)
             {
@@ -82,20 +82,20 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             }
         }
 
-        private void EnableNavButtonPrefab()
-        {
-            if (NavButtonPrefab != null && _hasPage)
-            {
-                NavButtonPrefab.SetActive(false);
-            }
-        }
-
-        private void EnableNavButtonContainer()
-        {
-            if (NavButtonContainer != null && _hasPage)
-            {
-                NavButtonContainer.gameObject.SetActive(true);
-            }
-        }
+        // private void OnEnableNavButtonPrefab()
+        // {
+        //     if (NavButtonPrefab != null && _hasPage)
+        //     {
+        //         NavButtonPrefab.SetActive(false);
+        //     }
+        // }
+        
+        // private void OnEnableNavButtonContainer()
+        // {
+        //     if (NavButtonContainer != null && _hasPage)
+        //     {
+        //         NavButtonContainer.parent.gameObject.SetActive(true);
+        //     }
+        // }
     }
 }
