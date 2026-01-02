@@ -12,7 +12,7 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
         [field: SerializeField] public Image HeaderBg { get; private set; }
         [field: SerializeField] public TMP_Text TitleText { get; private set; }
         [field: SerializeField] public TMP_Text DialogText { get; private set; }
-        [field: SerializeField] public DialogNavButton NavButtonPrefab { get; private set; }
+        [field: SerializeField] public GameObject NavButtonPrefab { get; private set; }
         [field: SerializeField] public Transform NavButtonContainer { get; private set; }
 
         private bool _hasPage;
@@ -46,8 +46,6 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             OnEnableHeaderBg();
             OnEnableTitleText();
             OnEnableDialogText();
-            // OnEnableNavButtonPrefab();
-            // OnEnableNavButtonContainer();
         }
 
         private void OnEnablePortrait()
@@ -81,21 +79,5 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
                 DialogText.text = Page.DialogText;
             }
         }
-
-        // private void OnEnableNavButtonPrefab()
-        // {
-        //     if (NavButtonPrefab != null && _hasPage)
-        //     {
-        //         NavButtonPrefab.SetActive(false);
-        //     }
-        // }
-        
-        // private void OnEnableNavButtonContainer()
-        // {
-        //     if (NavButtonContainer != null && _hasPage)
-        //     {
-        //         NavButtonContainer.parent.gameObject.SetActive(true);
-        //     }
-        // }
     }
 }

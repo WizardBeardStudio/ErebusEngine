@@ -196,8 +196,8 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             }
 
             _currentNode = node;
-            RenderCurrentPage();
             ShowPage(_currentNode);
+            RenderCurrentPage();
         }
 
         public void GoBack()
@@ -231,7 +231,7 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
                 return;
             }
 
-            RebuildNavButtons_DemoTraversal();
+            RebuildNavButtons();
         }
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
         /// - Sibling buttons ordered using BreadthFirst traversal from parent (filtering depth==1)
         /// - Child buttons ordered using DepthFirst traversal from current (filtering Parent==current)
         /// </summary>
-        private void RebuildNavButtons_DemoTraversal()
+        private void RebuildNavButtons()
         {
             var binder = _currentNode.Value.GetComponentInChildren<DialogPageComponentBinder>();
             if (binder == null)
@@ -260,7 +260,7 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             {
                 var previousNode = _history.Peek();
                 var backButton = Instantiate(binder.NavButtonPrefab, binder.NavButtonContainer);
-                backButton.Initialize("Previous", this, previousNode, isBack: true);
+                backButton.GetComponent<DialogNavButton>().Initialize("Previous", this, previousNode, isBack: true);
             }
 
             // 2) Siblings (BreadthFirst traversal from parent)
@@ -268,7 +268,7 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             {
                 var label = string.IsNullOrEmpty(sib.Value.Title) ? sib.Value.name : sib.Value.Title;
                 var button = Instantiate(binder.NavButtonPrefab, binder.NavButtonContainer);
-                button.Initialize(label, this, sib);
+                button.GetComponent<DialogNavButton>().Initialize(label, this, sib);
             }
 
             // 3) Children (DepthFirst traversal from current)
@@ -276,7 +276,7 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             {
                 var label = string.IsNullOrEmpty(child.Value.Title) ? child.Value.name : child.Value.Title;
                 var button = Instantiate(binder.NavButtonPrefab, binder.NavButtonContainer);
-                button.Initialize(label, this, child);
+                button.GetComponent<DialogNavButton>().Initialize(label, this, child);
             }
         }
 
@@ -287,8 +287,7 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
         /// </summary>
         private static IEnumerable<GameObjectTree<DialogPage>> EnumerateSiblingsBreadthFirst(GameObjectTree<DialogPage> current)
         {
-            if (current == null) yield break;
-            if (current.Parent == null) yield break;
+            if (current?.Parent == null) yield break;
 
             var parent = current.Parent;
 

@@ -23,7 +23,7 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             _dialogManager = dialogManager;
             _targetNode = targetNode;
             _isBack = isBack;
-
+            
             if (Label != null)
             {
                 Label.text = text;

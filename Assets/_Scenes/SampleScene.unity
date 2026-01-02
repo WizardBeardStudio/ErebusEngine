@@ -531,6 +531,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Panel
       objectReference: {fileID: 0}
+    - target: {fileID: 7000298120230974742, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: <NavButtonPrefab>k__BackingField
+      value: 
+      objectReference: {fileID: 8385985629228312746, guid: dc5d9e04a61da4d429beb43d60f7a130, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -682,6 +686,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Panel
       objectReference: {fileID: 0}
+    - target: {fileID: 7000298120230974742, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: <NavButtonPrefab>k__BackingField
+      value: 
+      objectReference: {fileID: 8385985629228312746, guid: dc5d9e04a61da4d429beb43d60f7a130, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1428,6 +1436,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: -17
       objectReference: {fileID: 0}
+    - target: {fileID: 7000298120230974742, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: <NavButtonPrefab>k__BackingField
+      value: 
+      objectReference: {fileID: 8385985629228312746, guid: dc5d9e04a61da4d429beb43d60f7a130, type: 3}
     - target: {fileID: 7199995755317583618, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0.000008834831
