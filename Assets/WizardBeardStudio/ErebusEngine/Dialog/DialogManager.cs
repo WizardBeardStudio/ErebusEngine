@@ -34,7 +34,8 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
 
             BuildForestFromHierarchy();
             ChooseEntryNode();
-            ShowPage(EntryNode);
+            // ShowPage(EntryNode);
+            StartDialog();
         }
 
         private void EnsurePagesRoot()
