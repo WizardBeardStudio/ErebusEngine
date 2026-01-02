@@ -9,25 +9,22 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
         [Header("Hierarchy")]
         [Tooltip("Root Transform containing all DialogPage GameObjects. Typically a GameObject named 'Pages'.")]
         [SerializeField] private Transform pagesRoot;
+
+        [Tooltip("DialogPage component that lives on pagesRoot. This is the synthetic root node.")]
         [SerializeField] private DialogPage syntheticRootPage;
 
-        
-        /// <summary>
-        /// Roots of the dialog trees (one per top-level DialogPage under pagesRoot).
-        /// </summary>
-        public IReadOnlyList<GameObjectTree<DialogPage>> Roots => _roots.AsReadOnly();
+        // Source of truth: single tree root
+        private GameObjectTree<DialogPage> _gameObjectTree;
 
-        /// <summary>
-        /// Entry node to start dialog flow from.
-        /// </summary>
+        // Lookup for building / navigation
+        private readonly Dictionary<DialogPage, GameObjectTree<DialogPage>> _nodeByPage = new();
+
+        private readonly Stack<GameObjectTree<DialogPage>> _history = new();
+        private GameObjectTree<DialogPage> _currentNode;
+
+        public GameObjectTree<DialogPage> DialogGameObjectTree => _gameObjectTree; // optional public accessor
         public GameObjectTree<DialogPage> EntryNode { get; private set; }
 
-        private readonly List<GameObjectTree<DialogPage>> _roots = new();
-        private readonly Dictionary<DialogPage, GameObjectTree<DialogPage>> _nodeByPage = new();
-        private readonly Stack<GameObjectTree<DialogPage>> _history = new();
-        
-        private GameObjectTree<DialogPage> _currentNode;
-        
         private void Awake()
         {
             EnsurePagesRoot();
@@ -37,28 +34,18 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
                 return;
             }
 
-            BuildForestFromHierarchy();
+            EnsureSyntheticRootPage();
+            if (syntheticRootPage == null)
+            {
+                Debug.LogError("[Dialog Manager] syntheticRootPage not set and no DialogPage found on PagesRoot.");
+                return;
+            }
+
+            BuildTreeFromHierarchy();
             ChooseEntryNode();
-            BuildRootSiblings();
             StartDialog();
         }
 
-        private void BuildRootSiblings()
-        {
-            if (EntryNode == null && syntheticRootPage == null) return;
-
-            foreach (var node in _roots)
-            {
-                // node.SetParent(EntryNode);
-
-                foreach (var sibling in _roots)
-                {
-                    if (node == sibling) break;
-                    node.AddSibling(sibling);
-                }
-            }
-        }
-        
         private void EnsurePagesRoot()
         {
             if (pagesRoot != null) return;
@@ -70,117 +57,133 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             }
         }
 
-        private void BuildForestFromHierarchy()
+        private void EnsureSyntheticRootPage()
         {
-            _roots.Clear();
+            if (syntheticRootPage != null) return;
+
+            // Preferred: designer adds DialogPage to PagesRoot in the scene.
+            syntheticRootPage = pagesRoot.GetComponent<DialogPage>();
+
+#if UNITY_EDITOR
+            // If missing in editor, you can auto-add it to reduce setup friction.
+            // Remove this block if you want strict authoring rules.
+            if (syntheticRootPage == null)
+            {
+                syntheticRootPage = pagesRoot.gameObject.AddComponent<DialogPage>();
+                Debug.LogWarning("[Dialog Manager] Added DialogPage to PagesRoot as synthetic root.");
+            }
+#endif
+        }
+
+        private void BuildTreeFromHierarchy()
+        {
             _nodeByPage.Clear();
 
-            // Find all DialogPage components under pagesRoot (including inactive)
+            // Get all DialogPages under PagesRoot, including the synthetic root on PagesRoot itself.
             var pages = pagesRoot.GetComponentsInChildren<DialogPage>(includeInactive: true);
 
             // Create nodes
             foreach (var page in pages)
             {
                 if (page == null) continue;
-                var node = new GameObjectTree<DialogPage>(page);
-                _nodeByPage[page] = node;
+                _nodeByPage[page] = new GameObjectTree<DialogPage>(page);
             }
 
-            // Wire up parent/child by walking the Transform hierarchy
+            // Establish the single root
+            _gameObjectTree = _nodeByPage[syntheticRootPage];
+
+            // Wire up relationships by nearest DialogPage ancestor.
             foreach (var page in pages)
             {
                 if (page == null) continue;
+                if (page == syntheticRootPage) continue; // skip root
 
                 var node = _nodeByPage[page];
-                var parentTransform = page.transform.parent;
 
-                GameObjectTree<DialogPage> parentNode = null;
-
-                // Walk up until we hit another DialogPage OR the pagesRoot
-                while (parentTransform != null && parentTransform != pagesRoot)
+                GameObjectTree<DialogPage> parentNode = FindNearestDialogPageAncestorNode(page.transform);
+                if (parentNode == null)
                 {
-                    var parentPage = parentTransform.GetComponent<DialogPage>();
-                    if (parentPage != null && _nodeByPage.TryGetValue(parentPage, out var foundParentNode))
-                    {
-                        parentNode = foundParentNode;
-                        break;
-                    }
-
-                    parentTransform = parentTransform.parent;
-                }
-
-                if (parentNode != null)
-                {
-                    parentNode.AddChild(node);
+                    // No DialogPage ancestor under PagesRoot, attach to synthetic root.
+                    _gameObjectTree.AddChild(node);
                 }
                 else
                 {
-                    // No DialogPage ancestor under pagesRoot, so this is a root
-                    if (node.Value.IsStartPage != true)
-                    {
-                        _roots.Add(node);
-                    }
+                    parentNode.AddChild(node);
                 }
             }
 
-            Debug.Log($"[Dialog Manager] Built dialog forest. Root count: {_roots.Count}");
+            Debug.Log($"[Dialog Manager] Built dialog tree with synthetic root: {syntheticRootPage.name}");
+        }
+
+        private GameObjectTree<DialogPage> FindNearestDialogPageAncestorNode(Transform start)
+        {
+            var parent = start.parent;
+            while (parent != null)
+            {
+                // Stop when leaving the PagesRoot subtree
+                if (parent == pagesRoot)
+                {
+                    // Parent is PagesRoot. If PagesRoot has the synthetic DialogPage, that is the nearest ancestor.
+                    if (syntheticRootPage != null && parent.GetComponent<DialogPage>() == syntheticRootPage)
+                    {
+                        return _gameObjectTree;
+                    }
+                    return null;
+                }
+
+                var parentPage = parent.GetComponent<DialogPage>();
+                if (parentPage != null && _nodeByPage.TryGetValue(parentPage, out var parentNode))
+                {
+                    return parentNode;
+                }
+
+                parent = parent.parent;
+            }
+
+            return null;
         }
 
         private void ChooseEntryNode()
         {
-            // Prefer an explicitly marked start page
+            // Prefer a page explicitly marked IsStartPage (excluding synthetic root).
             foreach (var kvp in _nodeByPage)
             {
-                if (kvp.Key != null && kvp.Key.IsStartPage)
+                var page = kvp.Key;
+                if (page == null) continue;
+                if (page == syntheticRootPage) continue;
+
+                if (page.IsStartPage)
                 {
                     EntryNode = kvp.Value;
                     break;
                 }
             }
 
-            // Fallback: first root
-            if (EntryNode == null && _roots.Count > 0)
+            // Fallback: first child of synthetic root
+            if (EntryNode == null && _gameObjectTree.Children.Count > 0)
             {
-                // EntryNode = _roots[0];
-                EntryNode = new GameObjectTree<DialogPage>(syntheticRootPage);
+                EntryNode = _gameObjectTree.GetChild(0);
             }
 
             if (EntryNode != null)
             {
-                Debug.Log($"[Dialog Manager] Entry node set to: {EntryNode.Value.name} ({EntryNode.Value.Title})");
+                Debug.Log($"[Dialog Manager] Entry node: {EntryNode.Value.name} ({EntryNode.Value.Title})");
             }
             else
             {
-                Debug.LogWarning("[Dialog Manager] No EntryNode determined; dialog forest is empty.");
+                Debug.LogWarning("[Dialog Manager] No EntryNode determined; tree is empty.");
             }
         }
-        
+
         public void StartDialog()
         {
             if (EntryNode == null)
             {
-                Debug.LogWarning("[Dialog Manager] Cannot start dialog, EntryNode is null.");
-                return;
-            }
-            GoToNode(EntryNode, true);
-        }
-
-        private void ShowPage(GameObjectTree<DialogPage> node)
-        {
-            if (node == null || node.Value == null)
-            {
-                Debug.LogWarning("[Dialog Manager] Attempted to show a null node or page.");
+                Debug.LogWarning("[Dialog Manager] Cannot start dialog; EntryNode is null.");
                 return;
             }
 
-            var page = node.Value;
-
-            // Drive UI from the page’s data
-            Debug.Log($"[Dialog Manager] Showing page '{page.Title}' (GameObject: {page.name})");
-            Debug.Log(page.DialogText);
-            
-            // TODO: Send an Event, and have the Pages listen for events to show, populate data, etc.?
-            page.gameObject.SetActive(true);
+            GoToNode(EntryNode, addToHistory: false);
         }
 
         public void GoToNode(GameObjectTree<DialogPage> node, bool addToHistory = true)
@@ -202,93 +205,135 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             if (_history.Count == 0) return;
 
             var previous = _history.Pop();
-            
-            GoToNode(node: previous, addToHistory: false);
+            GoToNode(previous, addToHistory: false);
+        }
+
+        private void ShowPage(GameObjectTree<DialogPage> node)
+        {
+            if (node == null || node.Value == null)
+            {
+                Debug.LogWarning("[Dialog Manager] Attempted to show a null node/page.");
+                return;
+            }
+
+            var page = node.Value;
+            Debug.Log($"[Dialog Manager] Showing page '{page.Title}' (GameObject: {page.name})");
+            Debug.Log(page.DialogText);
+
+            page.gameObject.SetActive(true);
         }
 
         private void RenderCurrentPage()
         {
             if (_currentNode == null || _currentNode.Value == null)
             {
-                Debug.LogWarning($"[Dialog Manager] RenderCurrentPage() called where null == _currentNode || _currentNode.Value");
+                Debug.LogWarning("[Dialog Manager] RenderCurrentPage called with null current node/value.");
                 return;
             }
-            
-            RebuildNavButtons();
+
+            RebuildNavButtons_DemoTraversal();
         }
 
-        private void RebuildNavButtons()
+        /// <summary>
+        /// Demonstrates traversal usage:
+        /// - "Back" button from history
+        /// - Sibling buttons ordered using BreadthFirst traversal from parent (filtering depth==1)
+        /// - Child buttons ordered using DepthFirst traversal from current (filtering Parent==current)
+        /// </summary>
+        private void RebuildNavButtons_DemoTraversal()
         {
-            // if (NavButtonContainer == null || NavButtonPrefab == null)
-            // {
-            //     Debug.LogWarning($"[Dialog Manager] NavButton || NavButtonPrefab == null.");
-            //     return;
-            // }
+            var binder = _currentNode.Value.GetComponentInChildren<DialogPageComponentBinder>();
+            if (binder == null)
+            {
+                Debug.LogWarning("[Dialog Manager] DialogPageComponentBinder not found under current page.");
+                return;
+            }
 
-            // for (int i = NavButtonContainer.childCount - 1; i >= 0; i--)
-            // {
-            //     var child = NavButtonContainer.GetChild(i);
-            //     Destroy(child.gameObject);
-            // }
+            // Clear the current page's nav container
+            for (int i = binder.NavButtonContainer.childCount - 1; i >= 0; i--)
+            {
+                Destroy(binder.NavButtonContainer.GetChild(i).gameObject);
+            }
 
+            // 1) Back button
             if (_history.Count > 0)
             {
                 var previousNode = _history.Peek();
-                var componentBinder = previousNode.Value.GetComponentInChildren<DialogPageComponentBinder>();
-                var backButton = Instantiate(componentBinder.NavButtonPrefab, componentBinder.NavButtonContainer);
+                var backButton = Instantiate(binder.NavButtonPrefab, binder.NavButtonContainer);
                 backButton.Initialize("Previous", this, previousNode, isBack: true);
             }
 
-            if (_currentNode.Parent != null)
+            // 2) Siblings (BreadthFirst traversal from parent)
+            foreach (var sib in EnumerateSiblingsBreadthFirst(_currentNode))
             {
-                foreach (var sibling in _currentNode.Siblings())
-                {
-                    if (sibling == null || sibling.Value == null) continue;
-                    
-                    var componentBinder = sibling.Value.GetComponentInChildren<DialogPageComponentBinder>();
-                    var button = Instantiate(componentBinder.NavButtonPrefab, componentBinder.NavButtonContainer);
-                    var label = string.IsNullOrEmpty(sibling.Value.Title)
-                        ? sibling.Value.name
-                        : sibling.Value.Title;
-                    
-                    button.Initialize(label, this, sibling);
-                }
+                var label = string.IsNullOrEmpty(sib.Value.Title) ? sib.Value.name : sib.Value.Title;
+                var button = Instantiate(binder.NavButtonPrefab, binder.NavButtonContainer);
+                button.Initialize(label, this, sib);
             }
 
-            foreach (var child in _currentNode.Children)
+            // 3) Children (DepthFirst traversal from current)
+            foreach (var child in EnumerateImmediateChildrenDepthFirst(_currentNode))
             {
-                if (child == null) continue;
-                
-                var componentBinder = child.Value.GetComponentInChildren<DialogPageComponentBinder>();
-                var button = Instantiate(componentBinder.NavButtonPrefab, componentBinder.NavButtonContainer);
-                var label = string.IsNullOrEmpty(child.Value.Title)
-                    ? child.Value.name
-                    : child.Value.Title;
-                
+                var label = string.IsNullOrEmpty(child.Value.Title) ? child.Value.name : child.Value.Title;
+                var button = Instantiate(binder.NavButtonPrefab, binder.NavButtonContainer);
                 button.Initialize(label, this, child);
             }
         }
-        
-        public IEnumerable<GameObjectTree<DialogPage>> DepthFirstAll()
+
+        /// <summary>
+        /// Breadth-first ordering of siblings:
+        /// BFS over the parent subtree returns parent, then its direct children in order.
+        /// Filter to direct children (Parent == parentNode), exclude current.
+        /// </summary>
+        private static IEnumerable<GameObjectTree<DialogPage>> EnumerateSiblingsBreadthFirst(GameObjectTree<DialogPage> current)
         {
-            foreach (var root in _roots)
+            if (current == null) yield break;
+            if (current.Parent == null) yield break;
+
+            var parent = current.Parent;
+
+            foreach (var node in GameObjectTree<DialogPage>.BreadthFirst(parent))
             {
-                foreach (var node in GameObjectTree<DialogPage>.DepthFirst(root))
+                if (node == null) continue;
+
+                // Siblings are the direct children of the same parent
+                if (node.Parent != parent) continue;
+                if (ReferenceEquals(node, current)) continue;
+
+                yield return node;
+            }
+        }
+
+        /// <summary>
+        /// Depth-first ordering of immediate children:
+        /// DFS over current subtree yields current then descendants.
+        /// Filter to direct children (Parent == current).
+        /// This demonstrates DFS usage while still returning only immediate children for nav buttons.
+        /// </summary>
+        private static IEnumerable<GameObjectTree<DialogPage>> EnumerateImmediateChildrenDepthFirst(GameObjectTree<DialogPage> current)
+        {
+            if (current == null) yield break;
+
+            foreach (var node in GameObjectTree<DialogPage>.DepthFirst(current))
+            {
+                if (node == null) continue;
+
+                // Skip self
+                if (ReferenceEquals(node, current)) continue;
+
+                // Only immediate children for navigation buttons
+                if (node.Parent == current)
                 {
                     yield return node;
                 }
             }
         }
 
+        // Optional reference helpers for whole-tree traversals starting at the synthetic root.
+        public IEnumerable<GameObjectTree<DialogPage>> DepthFirstAll()
+            => GameObjectTree<DialogPage>.DepthFirst(_gameObjectTree);
+
         public IEnumerable<GameObjectTree<DialogPage>> BreadthFirstAll()
-        {
-            foreach (var root in _roots)
-            {
-                foreach (var node in GameObjectTree<DialogPage>.BreadthFirst(root))
-                {
-                    yield return node;
-                }
-            }
-        }
+            => GameObjectTree<DialogPage>.BreadthFirst(_gameObjectTree);
     }
 }
