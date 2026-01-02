@@ -306,6 +306,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardBeardStudio.ErebusEngine.Dialog.DialogTree
   pagesRoot: {fileID: 2040660400}
+  <ScrollableRect>k__BackingField: {fileID: 0}
+  <NavButtonContainer>k__BackingField: {fileID: 0}
+  <NavButtonPrefab>k__BackingField: {fileID: 0}
 --- !u!224 &401477684 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5253905075962314432, guid: 395100899f1737a498bbb8ba2573cd5b, type: 3}
@@ -642,6 +645,8 @@ MonoBehaviour:
   <Title>k__BackingField: Third Dialog
   <Actors>k__BackingField:
   - {fileID: 1235727504}
+  <Portrait>k__BackingField: {fileID: 0}
+  <HeaderBG>k__BackingField: {fileID: 0}
   <DialogText>k__BackingField: 
 --- !u!1 &1124439960
 GameObject:
@@ -693,10 +698,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardBeardStudio.ErebusEngine.Dialog.DialogPage
   <IsStartPage>k__BackingField: 1
-  <Title>k__BackingField: First Dialog
+  <Title>k__BackingField: Erebus Dialog System
   <Actors>k__BackingField:
   - {fileID: 1235727504}
-  <DialogText>k__BackingField: 
+  <Portrait>k__BackingField: {fileID: 0}
+  <HeaderBG>k__BackingField: {fileID: 0}
+  <DialogText>k__BackingField: Erebus Dialog System builds GameObjectTree<DialogPage>
+    objects based on the GameObjects in the hierarchy below Pages.
 --- !u!1001 &1157443413
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -852,6 +860,8 @@ MonoBehaviour:
   <Title>k__BackingField: Second Dialog
   <Actors>k__BackingField:
   - {fileID: 1235727504}
+  <Portrait>k__BackingField: {fileID: 0}
+  <HeaderBG>k__BackingField: {fileID: 0}
   <DialogText>k__BackingField: 
 --- !u!1 &1235727501 stripped
 GameObject:
@@ -1078,6 +1088,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1124439961}
     m_Modifications:
+    - target: {fileID: 949687435475226817, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 949687435475226817, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 2470653550241218257, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2470653550241218257, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1161,6 +1187,120 @@ PrefabInstance:
     - target: {fileID: 4177345657607921724, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
       propertyPath: m_Name
       value: Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530330823204163959, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530330823204163959, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4577445823706532547, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4577445823706532547, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4794880957348103333, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4794880957348103333, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932785904436616116, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932785904436616116, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.9999702
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932785904436616116, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5502804278660901615, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5502804278660901615, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5502804278660901615, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 5502804278660901615, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 5610533053328121285, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.00001584013
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339200831971162462, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339200831971162462, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 7199995755317583618, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000008834831
+      objectReference: {fileID: 0}
+    - target: {fileID: 7280064984216927784, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_text
+      value: 'This is the dialog text. This is another line of text. Here, we have
+        another line of dialog. We''re using TextMeshPro for our gradient effect.
+
+
+        Here''s
+        another line of text. This is the current limit for this fontt at size 36.
+        Demo text.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7991330796529803422, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7991330796529803422, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7991330796529803422, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 7991330796529803422, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489640155334895036, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489640155334895036, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489640155334895036, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8854712756774435546, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8854712756774435546, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
