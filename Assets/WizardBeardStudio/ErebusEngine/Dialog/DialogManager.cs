@@ -34,6 +34,7 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
 
             BuildForestFromHierarchy();
             ChooseEntryNode();
+            ShowPage(EntryNode);
         }
 
         private void EnsurePagesRoot()
@@ -175,8 +176,9 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             // Drive UI from the page’s data
             Debug.Log($"[Dialog Manager] Showing page '{page.Title}' (GameObject: {page.name})");
             Debug.Log(page.DialogText);
-
-            // Here you would update your dialog UI instead of logging
+            
+            // TODO: Send an Event, and have the Pages listen for events to show, populate data, etc.?
+            page.gameObject.SetActive(true);
         }
     }
 }

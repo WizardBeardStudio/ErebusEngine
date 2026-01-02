@@ -692,7 +692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db2cdad9dda4e71afab7135796cd328, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardBeardStudio.ErebusEngine.Dialog.DialogPage
-  <IsStartPage>k__BackingField: 0
+  <IsStartPage>k__BackingField: 1
   <Title>k__BackingField: First Dialog
   <Actors>k__BackingField:
   - {fileID: 1235727504}

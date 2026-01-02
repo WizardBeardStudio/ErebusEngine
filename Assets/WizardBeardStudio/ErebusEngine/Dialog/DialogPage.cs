@@ -9,6 +9,6 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
         [field: SerializeField] public bool IsStartPage { get; private set; }
         [field: SerializeField] public string Title { get; private set; }
         [field: SerializeField] public List<Actor> Actors { get; private set; }
-        [TextArea][field: SerializeField] public string DialogText { get; private set; }
+        [TextArea(minLines: 4, maxLines: 8)][field: SerializeField] public string DialogText { get; private set; }
     }
 }
