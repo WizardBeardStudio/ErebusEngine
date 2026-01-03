@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: f458672a66901994e91205bcc52ddf48
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 32207
+  packageName: RPG & MMO UI 3 for UGUI
+  packageVersion: 1.10
+  assetPath: Assets/RnM UI 3 for UGUI/Shaders/Overlay.shader
+  uploadId: 196552

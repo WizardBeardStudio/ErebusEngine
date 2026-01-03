@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 259b5f979614af242a888d140b8f6d5a
+TrueTypeFontImporter:
+  serializedVersion: 2
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 1
+  characterPadding: 0
+  includeFontData: 1
+  use2xBehaviour: 0
+  fontNames: []
+  customCharacters: 
+  fontRenderingMode: 0
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 32207
+  packageName: RPG & MMO UI 3 for UGUI
+  packageVersion: 1.10
+  assetPath: Assets/RnM UI 3 for UGUI/Fonts/Calibri Bold.otf
+  uploadId: 196552
