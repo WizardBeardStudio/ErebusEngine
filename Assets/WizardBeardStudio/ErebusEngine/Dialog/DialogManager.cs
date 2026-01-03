@@ -27,7 +27,10 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
 
         private void Awake()
         {
+            Debug.Log($"[Dialog Manager] InstanceID={GetInstanceID()} managersInScene={FindObjectsByType<DialogManager>(FindObjectsSortMode.None).Length}");
+            
             EnsurePagesRoot();
+            
             if (pagesRoot == null)
             {
                 Debug.LogError("[Dialog Manager] pagesRoot not set and no GameObject named 'Pages' found.");
@@ -183,7 +186,8 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
                 return;
             }
 
-            GoToNode(EntryNode, addToHistory: false);
+            // GoToNode(EntryNode, addToHistory: false);
+            GoToNode(EntryNode, addToHistory: true);
         }
 
         public void GoToNode(GameObjectTree<DialogPage> node, bool addToHistory = true)
@@ -196,14 +200,14 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             }
 
             _currentNode = node;
-            ShowPage(_currentNode);
             RenderCurrentPage();
+            ShowPage(_currentNode);
         }
 
         public void GoBack()
         {
             if (_history.Count == 0) return;
-
+            HidePage(_currentNode);
             var previous = _history.Pop();
             GoToNode(previous, addToHistory: false);
         }
@@ -221,6 +225,18 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             Debug.Log(page.DialogText);
 
             page.gameObject.SetActive(true);
+        }
+
+        private void HidePage(GameObjectTree<DialogPage> node)
+        {
+            if (node == null || node.Value == null)
+            {
+                Debug.LogWarning("[Dialog Manager] Attempted to hide a null node/page.");
+                return;
+            }
+
+            var page = node.Value;
+            page.gameObject.SetActive(false);
         }
 
         private void RenderCurrentPage()

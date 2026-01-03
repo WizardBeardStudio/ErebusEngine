@@ -40,6 +40,8 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
 
         private void OnClicked()
         {
+            Debug.Log($"[Dialog Nav Button] _targetNode.Value.gameObject.name={_targetNode.Value.gameObject.name}");
+            
             if (_dialogManager == null) return;
 
             if (_isBack)
