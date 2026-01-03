@@ -21,8 +21,10 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
 
         private readonly Stack<GameObjectTree<DialogPage>> _history = new();
         private GameObjectTree<DialogPage> _currentNode;
+        private GameObjectTree<DialogPage> _previousNode;
 
         public GameObjectTree<DialogPage> DialogGameObjectTree => _gameObjectTree; // optional public accessor
+        public GameObjectTree<DialogPage> CurrentNode => _currentNode;
         public GameObjectTree<DialogPage> EntryNode { get; private set; }
 
         private void Awake()
@@ -199,9 +201,14 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
                 _history.Push(_currentNode);
             }
 
+            _previousNode = _currentNode;
             _currentNode = node;
             RenderCurrentPage();
             ShowPage(_currentNode);
+            if (_previousNode != EntryNode)
+            {
+                HidePage(_previousNode);
+            }
         }
 
         public void GoBack()
@@ -212,7 +219,7 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             GoToNode(previous, addToHistory: false);
         }
 
-        private void ShowPage(GameObjectTree<DialogPage> node)
+        public void ShowPage(GameObjectTree<DialogPage> node)
         {
             if (node == null || node.Value == null)
             {
@@ -227,7 +234,7 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             page.gameObject.SetActive(true);
         }
 
-        private void HidePage(GameObjectTree<DialogPage> node)
+        public void HidePage(GameObjectTree<DialogPage> node)
         {
             if (node == null || node.Value == null)
             {
