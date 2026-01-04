@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using WizardBeardStudio.ErebusEngine.EventBus;
 
 namespace WizardBeardStudio.ErebusEngine.Core
 {

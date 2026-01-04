@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 namespace WizardBeardStudio.ErebusEngine.Dialog
 {
+    /// <summary>
+    /// The Panel prefab contains this component to bind <see cref="GameObject"/> components.
+    /// Data from the <see cref="DialogPage"/> component is wired into other <see cref="GameObject"/> components.
+    /// </summary>
     public class DialogPageComponentBinder : MonoBehaviour
     {
         [field: SerializeField] public DialogPage Page { get; private set; }

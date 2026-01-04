@@ -4,6 +4,13 @@ using WizardBeardStudio.ErebusEngine.Core;
 
 namespace WizardBeardStudio.ErebusEngine.Dialog
 {
+    /// <summary>
+    /// Attach a <see cref="DialogManager"/> component to the root of the Dialog hierarchy.
+    /// We can have multiple <see cref="DialogManager"/> <see cref="GameObject"/> instances in a Scene.
+    /// As a child GameObject to this DialogManager, we add a <see cref="DialogPage"/> as the synthetic root of a page tree.
+    /// This DialogManager type builds and walks a <see cref="GameObjectTree{T}"/> source of truth to build dynamic <see cref="DialogNavButton"/> controls.
+    /// Our <see cref="GameObjectTree{T}"/> structure expects T to be of <see cref="DialogPage"/> type, including descendants. 
+    /// </summary>
     public class DialogManager : MonoBehaviour
     {
         [Header("Hierarchy")]
@@ -13,13 +20,12 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
         [Tooltip("DialogPage component that lives on pagesRoot. This is the synthetic root node.")]
         [SerializeField] private DialogPage syntheticRootPage;
 
-        // Source of truth: single tree root
-        private GameObjectTree<DialogPage> _gameObjectTree;
-
-        // Lookup for building / navigation
+        // Lookup for building / navigation:
         private readonly Dictionary<DialogPage, GameObjectTree<DialogPage>> _nodeByPage = new();
-
         private readonly Stack<GameObjectTree<DialogPage>> _history = new();
+        
+        // Source of truth, single tree root:
+        private GameObjectTree<DialogPage> _gameObjectTree;
         private GameObjectTree<DialogPage> _currentNode;
         private GameObjectTree<DialogPage> _previousNode;
 
@@ -70,8 +76,6 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             syntheticRootPage = pagesRoot.GetComponent<DialogPage>();
 
 #if UNITY_EDITOR
-            // If missing in editor, you can auto-add it to reduce setup friction.
-            // Remove this block if you want strict authoring rules.
             if (syntheticRootPage == null)
             {
                 syntheticRootPage = pagesRoot.gameObject.AddComponent<DialogPage>();
@@ -87,14 +91,14 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             // Get all DialogPages under PagesRoot, including the synthetic root on PagesRoot itself.
             var pages = pagesRoot.GetComponentsInChildren<DialogPage>(includeInactive: true);
 
-            // Create nodes
+            // Create nodes and put them in the lookup Dictionary.
             foreach (var page in pages)
             {
                 if (page == null) continue;
                 _nodeByPage[page] = new GameObjectTree<DialogPage>(page);
             }
 
-            // Establish the single root
+            // Establish the single root:
             _gameObjectTree = _nodeByPage[syntheticRootPage];
 
             // Wire up relationships by nearest DialogPage ancestor.
@@ -164,7 +168,7 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
                 }
             }
 
-            // Fallback: first child of synthetic root
+            // Fallback: first child of synthetic root:
             if (EntryNode == null && _gameObjectTree.Children.Count > 0)
             {
                 EntryNode = _gameObjectTree.GetChild(0);
@@ -203,8 +207,10 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
 
             _previousNode = _currentNode;
             _currentNode = node;
+            
             RenderCurrentPage();
             ShowPage(_currentNode);
+            
             if (_previousNode != EntryNode)
             {
                 HidePage(_previousNode);
@@ -214,7 +220,9 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
         public void GoBack()
         {
             if (_history.Count == 0) return;
+            
             HidePage(_currentNode);
+            
             var previous = _history.Pop();
             GoToNode(previous, addToHistory: false);
         }
@@ -272,13 +280,13 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
                 return;
             }
 
-            // Clear the current page's nav container
+            // Clear the current page's nav container:
             for (int i = binder.NavButtonContainer.childCount - 1; i >= 0; i--)
             {
                 Destroy(binder.NavButtonContainer.GetChild(i).gameObject);
             }
 
-            // 1) Back button
+            // 1) Back button:
             if (_history.Count > 0)
             {
                 var previousNode = _history.Peek();
@@ -286,7 +294,7 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
                 backButton.GetComponent<DialogNavButton>().Initialize("Previous", this, previousNode, isBack: true);
             }
 
-            // 2) Siblings (BreadthFirst traversal from parent)
+            // 2) Siblings (BreadthFirst traversal from parent):
             foreach (var sib in EnumerateSiblingsBreadthFirst(_currentNode))
             {
                 var label = string.IsNullOrEmpty(sib.Value.Title) ? sib.Value.name : sib.Value.Title;
@@ -294,7 +302,7 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
                 button.GetComponent<DialogNavButton>().Initialize(label, this, sib);
             }
 
-            // 3) Children (DepthFirst traversal from current)
+            // 3) Children (DepthFirst traversal from current):
             foreach (var child in EnumerateImmediateChildrenDepthFirst(_currentNode))
             {
                 var label = string.IsNullOrEmpty(child.Value.Title) ? child.Value.name : child.Value.Title;
@@ -318,7 +326,7 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             {
                 if (node == null) continue;
 
-                // Siblings are the direct children of the same parent
+                // Siblings are the direct children of the same parent.
                 if (node.Parent != parent) continue;
                 if (ReferenceEquals(node, current)) continue;
 
@@ -340,10 +348,10 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             {
                 if (node == null) continue;
 
-                // Skip self
+                // Skip self:
                 if (ReferenceEquals(node, current)) continue;
 
-                // Only immediate children for navigation buttons
+                // Only immediate children for navigation buttons:
                 if (node.Parent == current)
                 {
                     yield return node;
@@ -351,11 +359,14 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             }
         }
 
-        // Optional reference helpers for whole-tree traversals starting at the synthetic root.
+        // Optional reference helpers for whole-tree traversals starting at the synthetic root:
         public IEnumerable<GameObjectTree<DialogPage>> DepthFirstAll()
             => GameObjectTree<DialogPage>.DepthFirst(_gameObjectTree);
 
         public IEnumerable<GameObjectTree<DialogPage>> BreadthFirstAll()
             => GameObjectTree<DialogPage>.BreadthFirst(_gameObjectTree);
+
+        public IEnumerable<GameObjectTree<DialogPage>> PathToRoot()
+            => GameObjectTree<DialogPage>.PathToRoot(_gameObjectTree);
     }
 }

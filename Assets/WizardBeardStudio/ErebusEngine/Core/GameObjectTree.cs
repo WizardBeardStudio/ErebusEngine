@@ -4,6 +4,11 @@ using UnityEngine;
 
 namespace WizardBeardStudio.ErebusEngine.Core
 {
+    /// <summary>
+    /// Generic Tree structure with breadth-first and depth-first capabilities.
+    /// <see cref="WizardBeardStudio.ErebusEngine.Dialog.DialogManager"/> provides an example implementation using <see cref="WizardBeardStudio.ErebusEngine.Dialog.DialogPage"/> GameObjects.
+    /// </summary>
+    /// <typeparam name="T">Accepts any component of type <see cref="MonoBehaviour"/>.</typeparam>
     public class GameObjectTree<T> where T : MonoBehaviour
     {
         public T Value { get; private set; }
@@ -48,6 +53,7 @@ namespace WizardBeardStudio.ErebusEngine.Core
         public IEnumerable<GameObjectTree<T>> Siblings()
         {
             if (Parent == null) yield break;
+            
             foreach (var sibling in Parent.Children)
             {
                 if (!ReferenceEquals(sibling, this))
@@ -70,6 +76,7 @@ namespace WizardBeardStudio.ErebusEngine.Core
 
             var siblings = Parent._children;
             var index = siblings.IndexOf(this);
+            
             if (index < 0 || index + 1 >= siblings.Count) return null;
 
             return siblings[index + 1];
@@ -81,6 +88,7 @@ namespace WizardBeardStudio.ErebusEngine.Core
 
             var siblings = Parent._children;
             var index = siblings.IndexOf(this);
+            
             if (index <= 0) return null;
 
             return siblings[index - 1];

@@ -10,6 +10,9 @@ namespace WizardBeardStudio.ErebusEngine.EventBus
     /// </summary>
     public class SharedEventBus : Singleton<SharedEventBus>
     {
+        /// <summary>
+        /// Internal data structure to store <see cref="List{T}"/> where T : <see cref="object"/> subscriber values of key <see cref="Type"/>.
+        /// </summary>
         private static Dictionary<Type, List<object>> _subscribers = new();
 
         public void Subscribe<T>(Action<T> callback)
