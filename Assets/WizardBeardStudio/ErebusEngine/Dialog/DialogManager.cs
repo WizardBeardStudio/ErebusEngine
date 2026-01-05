@@ -1,6 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using WizardBeardStudio.ErebusEngine.Core;
+using WizardBeardStudio.ErebusEngine.EventBus;
+using WizardBeardStudio.Events.Dialog;
+
+// using WizardBeardStudio.Events.Dialog;
 
 namespace WizardBeardStudio.ErebusEngine.Dialog
 {
@@ -13,6 +18,8 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
     /// </summary>
     public class DialogManager : MonoBehaviour
     {
+        private static SharedEventBus _sharedEventBus;
+        
         [Header("Hierarchy")]
         [Tooltip("Root Transform containing all DialogPage GameObjects. Typically a GameObject named 'Pages'.")]
         [SerializeField] private Transform pagesRoot;
@@ -54,9 +61,8 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
 
             BuildTreeFromHierarchy();
             ChooseEntryNode();
-            StartDialog();
         }
-
+        
         private void EnsurePagesRoot()
         {
             if (pagesRoot != null) return;
@@ -196,11 +202,22 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
             GoToNode(EntryNode, addToHistory: true);
         }
 
+        public void EndDialog()
+        {
+            if (EntryNode == null)
+            {
+                Debug.LogWarning("[Dialog Manager] Cannot end dialog; EntryNode is null.");
+                return;
+            }
+            
+            HidePage(EntryNode);
+        }
+
         public void GoToNode(GameObjectTree<DialogPage> node, bool addToHistory = true)
         {
             if (node == null) return;
 
-            if (_currentNode != null && addToHistory)
+            if (_nodeByPage != null && addToHistory)
             {
                 _history.Push(_currentNode);
             }
