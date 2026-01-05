@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using WizardBeardStudio.ErebusEngine.Core;
 using WizardBeardStudio.ErebusEngine.EventBus;
-using WizardBeardStudio.Events.Dialog;
-
-// using WizardBeardStudio.Events.Dialog;
 
 namespace WizardBeardStudio.ErebusEngine.Dialog
 {

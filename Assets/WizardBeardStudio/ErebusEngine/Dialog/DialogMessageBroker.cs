@@ -6,7 +6,6 @@ using WizardBeardStudio.Events.Dialog;
 
 namespace WizardBeardStudio.ErebusEngine.Dialog
 {
-    [RequireComponent(typeof(SharedEventBus))]
     public class DialogMessageBroker : Singleton<DialogMessageBroker>
     {
         private static SharedEventBus _sharedEventBus;

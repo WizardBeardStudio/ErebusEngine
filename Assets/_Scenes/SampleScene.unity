@@ -1579,7 +1579,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1544795172}
   - component: {fileID: 1544795171}
-  - component: {fileID: 1544795173}
   m_Layer: 0
   m_Name: DialogMessageBroker
   m_TagString: Untagged
@@ -1609,24 +1608,12 @@ Transform:
   m_GameObject: {fileID: 1544795170}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -960, y: -540, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 401477684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1544795173
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1544795170}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e57f4f2b42184e37aa14f8b6e11757c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WizardBeardStudio.ErebusEngine.EventBus.SharedEventBus
 --- !u!224 &1807884434 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
@@ -1801,6 +1788,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8616997589290153391}
   - component: {fileID: 2277844536631220122}
+  - component: {fileID: 8616997589290153392}
   m_Layer: 0
   m_Name: ExperienceManager
   m_TagString: Untagged
@@ -1908,6 +1896,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5253905075962314432, guid: 395100899f1737a498bbb8ba2573cd5b, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 1544795172}
+    - targetCorrespondingSourceObject: {fileID: 5253905075962314432, guid: 395100899f1737a498bbb8ba2573cd5b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1024574931}
     - targetCorrespondingSourceObject: {fileID: 5253905075962314432, guid: 395100899f1737a498bbb8ba2573cd5b, type: 3}
@@ -1942,6 +1933,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8616997589290153392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4833279642761543454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e57f4f2b42184e37aa14f8b6e11757c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardBeardStudio.ErebusEngine.EventBus.SharedEventBus
 --- !u!1001 &9010606267575756983
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2262,6 +2265,5 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 8616997589290153391}
-  - {fileID: 1544795172}
   - {fileID: 9199399545449582295}
   - {fileID: 5258900960245682819}
