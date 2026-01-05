@@ -583,6 +583,108 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 504730698}
   m_CullTransparentMesh: 1
+--- !u!1001 &551936214
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1567000057}
+    m_Modifications:
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1788.392
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 321.6408
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.5486984
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -310.3866
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4177345657607921724, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_Name
+      value: Panel
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+--- !u!224 &551936215 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+  m_PrefabInstance: {fileID: 551936214}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &582083130
 GameObject:
   m_ObjectHideFlags: 0
@@ -1019,12 +1121,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardBeardStudio.ErebusEngine.Dialog.DialogPage
   <IsStartPage>k__BackingField: 0
-  <Title>k__BackingField: Third Dialog
+  <Title>k__BackingField: Open Source?
   <Actors>k__BackingField:
   - {fileID: 1235727504}
   <Portrait>k__BackingField: {fileID: 0}
   <HeaderBg>k__BackingField: {fileID: 0}
-  <DialogText>k__BackingField: 
+  <DialogText>k__BackingField: 'Erebus Engine is released under the MIT License. '
 --- !u!1 &1024574930
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,6 +1195,7 @@ RectTransform:
   m_Children:
   - {fileID: 1807884434}
   - {fileID: 1913526365}
+  - {fileID: 1567000057}
   m_Father: {fileID: 2040660400}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1272,12 +1375,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardBeardStudio.ErebusEngine.Dialog.DialogPage
   <IsStartPage>k__BackingField: 0
-  <Title>k__BackingField: Second Dialog
+  <Title>k__BackingField: User Experience
   <Actors>k__BackingField:
   - {fileID: 1235727504}
   <Portrait>k__BackingField: {fileID: 0}
   <HeaderBg>k__BackingField: {fileID: 0}
-  <DialogText>k__BackingField: 
+  <DialogText>k__BackingField: We don't need to write any code to make our Dialog
+    System work as an end user. Folks like level designers and narrative writers
+    can create rich diaog experiences just by arranging existing and new DialogPage
+    components in a GameObject hierarchy.
 --- !u!1 &1235727501 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7912558534721411457, guid: b0b64c6ee9730d6448f4681cb783837b, type: 3}
@@ -1614,6 +1720,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 401477684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1567000056
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1567000057}
+  - component: {fileID: 1567000058}
+  m_Layer: 5
+  m_Name: Page0-2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1567000057
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567000056}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 551936215}
+  m_Father: {fileID: 1124439961}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1567000058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567000056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2cdad9dda4e71afab7135796cd328, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardBeardStudio.ErebusEngine.Dialog.DialogPage
+  <IsStartPage>k__BackingField: 0
+  <Title>k__BackingField: Erebus Editor
+  <Actors>k__BackingField:
+  - {fileID: 1235727504}
+  <Portrait>k__BackingField: {fileID: 0}
+  <HeaderBg>k__BackingField: {fileID: 0}
+  <DialogText>k__BackingField: 'Consider our Scene: SimpleDialogTree --> Pages -->
+    [ Page0. Page1, Page2 ], Page0 --> [ Page0-1. Page 0-2 ], etc.'
 --- !u!224 &1807884434 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
@@ -1669,12 +1832,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardBeardStudio.ErebusEngine.Dialog.DialogPage
   <IsStartPage>k__BackingField: 0
-  <Title>k__BackingField: Third Dialog
+  <Title>k__BackingField: Erebus Implementation
   <Actors>k__BackingField:
   - {fileID: 1235727504}
   <Portrait>k__BackingField: {fileID: 0}
   <HeaderBg>k__BackingField: {fileID: 0}
-  <DialogText>k__BackingField: 
+  <DialogText>k__BackingField: 'The Erebus Engine implementation features an easy
+    GameObjectTree<T> where T : MonoBehaviour. Page hierarchy trees are dynamically
+    built based upon the GameObjects in each scene provided they have the Dialog
+    System components.'
 --- !u!1 &2040660399
 GameObject:
   m_ObjectHideFlags: 0
