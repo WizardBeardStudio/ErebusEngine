@@ -12,7 +12,7 @@ namespace WizardBeardStudio.ErebusEngine.Core
     public class GameObjectTree<T> where T : MonoBehaviour
     {
         public T Value { get; private set; }
-        public GameObjectTree<T> Parent { get; set; }
+        public GameObjectTree<T> Parent { get; private set; }
         public IReadOnlyList<GameObjectTree<T>> Children => _children.AsReadOnly();
 
         private readonly List<GameObjectTree<T>> _children = new();
