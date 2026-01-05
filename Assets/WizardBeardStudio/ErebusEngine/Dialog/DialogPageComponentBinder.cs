@@ -46,8 +46,8 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
 
         private void OnEnable()
         {
-            OnEnablePortrait();
-            OnEnableHeaderBg();
+            // OnEnablePortrait();
+            // OnEnableHeaderBg();
             OnEnableTitleText();
             OnEnableDialogText();
         }
