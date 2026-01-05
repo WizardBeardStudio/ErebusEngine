@@ -194,8 +194,7 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
                 return;
             }
 
-            // GoToNode(EntryNode, addToHistory: false);
-            GoToNode(EntryNode, addToHistory: true);
+            GoToNode(EntryNode, addToHistory: false);
         }
 
         public void EndDialog()
