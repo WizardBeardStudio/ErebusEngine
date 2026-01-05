@@ -6,13 +6,20 @@ using WizardBeardStudio.Events.Dialog;
 
 namespace WizardBeardStudio.ErebusEngine.Dialog
 {
-    // [RequireComponent(typeof(SharedEventBus))]
+    [RequireComponent(typeof(SharedEventBus))]
     public class DialogMessageBroker : Singleton<DialogMessageBroker>
     {
         private static SharedEventBus _sharedEventBus;
         
         [field: SerializeField] public DialogManager[] DialogManagers { get; private set; }
-        
+
+        private void OnEnable()
+        {
+            _sharedEventBus = SharedEventBus.Instance;
+            _sharedEventBus.Subscribe<StartDialogEvent>(OnStartDialogEvent);
+            _sharedEventBus.Subscribe<EndDialogEvent>(OnEndDialogEvent);
+        }
+
         private void OnDisable()
         {
             _sharedEventBus.Unsubscribe<StartDialogEvent>(OnStartDialogEvent);
@@ -21,11 +28,11 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
 
         private void Start()
         {
-            _sharedEventBus = SharedEventBus.Instance;
-            _sharedEventBus.Subscribe<StartDialogEvent>(OnStartDialogEvent);
-            _sharedEventBus.Subscribe<EndDialogEvent>(OnEndDialogEvent);
+            // _sharedEventBus = SharedEventBus.Instance;
+            // _sharedEventBus.Subscribe<StartDialogEvent>(OnStartDialogEvent);
+            // _sharedEventBus.Subscribe<EndDialogEvent>(OnEndDialogEvent);
             
-            if (DialogManagers is { Length: <= 0 }) return;
+            if (DialogManagers is { Length: > 0 }) return;
             DialogManagers = FindObjectsByType<DialogManager>(FindObjectsSortMode.None);
         }
 

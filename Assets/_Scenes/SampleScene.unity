@@ -1579,8 +1579,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1544795172}
   - component: {fileID: 1544795171}
+  - component: {fileID: 1544795173}
   m_Layer: 0
-  m_Name: Dialog Message Broker
+  m_Name: DialogMessageBroker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1598,8 +1599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68a9edaefabe4edcb6bfe741d4127f3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardBeardStudio.ErebusEngine.Dialog.DialogMessageBroker
-  <DialogManagers>k__BackingField:
-  - {fileID: 384730832}
+  <DialogManagers>k__BackingField: []
 --- !u!4 &1544795172
 Transform:
   m_ObjectHideFlags: 0
@@ -1615,6 +1615,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1544795173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544795170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e57f4f2b42184e37aa14f8b6e11757c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardBeardStudio.ErebusEngine.EventBus.SharedEventBus
 --- !u!224 &1807884434 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2664201307750197121, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
@@ -2090,9 +2102,13 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: -17
       objectReference: {fileID: 0}
+    - target: {fileID: 5506989850805395316, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5610533053328121285, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00001584013
+      value: 0.000979304
       objectReference: {fileID: 0}
     - target: {fileID: 6339200831971162462, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2150,15 +2166,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8854712756774435546, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0.999997
       objectReference: {fileID: 0}
     - target: {fileID: 8966532314229162350, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8966532314229162350, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8966532314229162350, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
       propertyPath: m_SizeDelta.x
@@ -2170,7 +2186,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8966532314229162350, guid: dd0a6f22228b7a148982cb715c9e5a58, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -20
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
