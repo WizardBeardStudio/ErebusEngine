@@ -14,7 +14,7 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
     /// </summary>
     public class DialogManager : MonoBehaviour
     {
-        private static SharedEventBus _sharedEventBus;
+        // private static SharedEventBus _sharedEventBus;
         
         [Header("Hierarchy")]
         [Tooltip("Root Transform containing all DialogPage GameObjects. Typically a GameObject named 'Pages'.")]

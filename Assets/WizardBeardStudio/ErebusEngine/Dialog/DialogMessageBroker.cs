@@ -27,10 +27,6 @@ namespace WizardBeardStudio.ErebusEngine.Dialog
 
         private void Start()
         {
-            // _sharedEventBus = SharedEventBus.Instance;
-            // _sharedEventBus.Subscribe<StartDialogEvent>(OnStartDialogEvent);
-            // _sharedEventBus.Subscribe<EndDialogEvent>(OnEndDialogEvent);
-            
             if (DialogManagers is { Length: > 0 }) return;
             DialogManagers = FindObjectsByType<DialogManager>(FindObjectsSortMode.None);
         }
