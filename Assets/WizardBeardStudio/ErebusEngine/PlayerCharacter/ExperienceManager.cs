@@ -15,6 +15,9 @@ namespace WizardBeardStudio.ErebusEngine.PlayerCharacter
         
         private void Start()
         {
+            _sharedEventBus = SharedEventBus.Instance;
+            _sharedEventBus.Subscribe<GainExperienceEvent>(OnGainExperienceEvent);
+            _sharedEventBus.Subscribe<SetTargetXpEvent>(OnSetTargetXpEvent);
             GetCurrentXp();
             GetTargetXp();
         }
@@ -61,9 +64,7 @@ namespace WizardBeardStudio.ErebusEngine.PlayerCharacter
 
         private void OnEnable()
         {
-            _sharedEventBus = SharedEventBus.Instance;
-            _sharedEventBus.Subscribe<GainExperienceEvent>(OnGainExperienceEvent);
-            _sharedEventBus.Subscribe<SetTargetXpEvent>(OnSetTargetXpEvent);
+
         }
 
         private void OnDisable()

@@ -25,7 +25,7 @@ namespace WizardBeardStudio.ErebusEngine.UI
         [Tooltip("The Dialog Manager Name should match the name of the GameObject with the DialogManager component.")]
         [field: SerializeField] public string DialogManagerName { get; private set; }
 
-        private void OnEnable()
+        private void Start()
         {
             _sharedEventBus = SharedEventBus.Instance;
             _experienceManager = ExperienceManager.Instance;
