@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using WizardBeardStudio.ErebusEngine.PlayerCharacter;
 using WizardBeardStudio.ErebusEngine.RulesEngine.Builder;
 using WizardBeardStudio.ErebusEngine.RulesEngine.Core;
 
