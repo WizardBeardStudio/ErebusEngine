@@ -1,4 +1,7 @@
-﻿namespace WizardBeardStudio.ErebusEngine.Quests
+﻿using System;
+using UnityEngine;
+
+namespace WizardBeardStudio.ErebusEngine.Quests
 {
     [Serializable]
     public sealed class QuestStep

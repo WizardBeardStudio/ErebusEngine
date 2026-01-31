@@ -1,4 +1,7 @@
-﻿namespace WizardBeardStudio.ErebusEngine.Quests
+﻿using System;
+using System.Collections.Generic;
+
+namespace WizardBeardStudio.ErebusEngine.Quests
 {
     [Serializable]
     public sealed class QuestTransition
