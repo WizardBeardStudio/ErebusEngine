@@ -72,6 +72,14 @@ namespace WizardBeardStudio.ErebusEngine.Quests
             return true;
         }
 
+        public void AddPlayerTag(string player)
+        {
+            if (player != null)
+            {
+                _playerTags.Add(player);
+            }
+        }
+        
         public List<(string to, QuestTransition data)> GetAvailableChoices(string fromId)
         {
             var result = new List<(string to, QuestTransition data)>();
